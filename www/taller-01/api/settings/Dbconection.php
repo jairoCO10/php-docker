@@ -1,6 +1,6 @@
 <?php
 class Dbconection {
-    private $host = "localhost";
+    private $host = "192.168.1.26"; // "192.168.1.26" YOUR IP ADDRESS
     private $dbname = "dbname"; // aquí debes reemplazar "dbname" con el nombre de tu base de datos
     private $user = "root";
     private $password = "test";

@@ -1,11 +1,9 @@
 <?php
     class UserModel{
         private $PDO;
-        public function __construct()
+        public function __construct($conn)
         {
-            require_once("../../settings/Dbconection.php");
-            $con = new Dbconection();
-            $this->PDO = $con->conection();
+            $this->PDO = $conn;
         }
         public function insertar($name){
             $sql = "INSERT INTO Person(name) VALUES (:name)";
@@ -14,7 +12,7 @@
             try {
                 $result = $this->PDO->prepare($sql);
                 $result->execute($bindings);
-                return $result;
+                return $this->PDO->lastInsertId();
             } catch (\Exception $e) {
                 die($e->getMessage());
             }
@@ -34,7 +32,11 @@
         }
 
         public function index(){
-            $sql = "SELECT * FROM Person";
+            $sql = "SELECT Person.identificacion, Person.name, Genero.genero, Programa.programa
+                        FROM Person 
+                            INNER JOIN Genero ON Genero.id = Person.genero
+                            INNER JOIN Programa ON Programa.id = Person.programa
+                        WHERE Person.status = 1";
             try{
                 $result = $this->PDO->prepare($sql);
                 

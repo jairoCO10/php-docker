@@ -11,16 +11,17 @@
             <th>Nombre</th>
         </tr>
         <?php
-            require_once('UserModel.php');
-            require_once('UserController.php');
+            require_once('../api/models/UserModel.php');
+            require_once("../api/settings/Dbconection.php");
+            require_once('../api/controller/UserController.php');
             // crear instancia del controlador
-            $controller = new UserController($db);
+            $controller = new UserController();
             // llamar al método para obtener los datos
-            $personas = json_decode($controller->getPerson());
+            $personas = $controller->index();
             // recorrer los datos y mostrarlos en la tabla
             foreach ($personas as $persona) {
                 echo "<tr>";
-                echo "<td>".$persona->id."</td>";
+                echo "<td>".$persona->identificacion."</td>";
                 echo "<td>".$persona->name."</td>";
                 echo "</tr>";
             }

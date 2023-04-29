@@ -1,10 +1,10 @@
 <?php
-    class userController{
+    class UserController{
         private $model;
-        public function __construct()
+        public function __construct($conn)
         {
-            require_once("../../models/UserModel.php");
-            $this->model = new UserModel();
+            // require_once("../../models/UserModel.php");
+            $this->model = new UserModel($conn);
         }
         public function guardar($nombre){
             $id = $this->model->insertar($nombre);
@@ -14,7 +14,6 @@
             return ($this->model->show($id) != false) ? $this->model->show($id) : header("Location:index.php");
         }
         public function index(){
-            echo json_encode($this->model->index());exit;
             return ($this->model->index()) ? $this->model->index() : false;
         }
         public function update($id, $nombre){

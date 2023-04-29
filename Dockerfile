@@ -1,9 +1,8 @@
 FROM php:8.0.0-apache
 ARG DEBIAN_FRONTEND=noninteractive
-RUN docker-php-ext-install mysqli
-# Include alternative DB driver
-RUN docker-php-ext-install pdo
-RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql
+# for mysqli if you want
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
 RUN apt-get update \
     && apt-get install -y sendmail libpng-dev \
@@ -18,3 +17,5 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-install gd
 
 RUN a2enmod rewrite
+RUN docker-php-ext-enable pdo
+RUN docker-php-ext-enable pdo_mysql
