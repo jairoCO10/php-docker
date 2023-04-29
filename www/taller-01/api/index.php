@@ -12,21 +12,21 @@ include_once './controller/GeneroController.php';
 include_once './controller/ProgramaController.php';
 include_once './controller/UserController.php';
 
+
 // obtener la conexion
 $db = new Dbconection();
+// var_dump($db);exit;
 $conn = $db->conection();
 // evaluemaos si se puede conectar a la bd
+$userController = new UserController($conn);
+$generoController = new GeneroController($conn);
+$programaController = new ProgramaController($conn);
+
 if (!is_null($conn)) {    
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            $userController = new UserController($conn);
             $personas = $userController->index();
-            
-            $generoController = new GeneroController($conn);
             $generos = $generoController->getGeneros();
-
-
-            $programaController = new ProgramaController($conn);
             $programas = $programaController->getProgramas();
 
             $data = array(
@@ -34,16 +34,40 @@ if (!is_null($conn)) {
                 'generos' => $generos,
                 'programas' => $programas
             );
-            echo json_encode($data);exit;
+            echo json_encode($data);
             break;
         case 'POST':
-            echo 'post';
+            $data_find = json_decode(file_get_contents("php://input"),true);
+            // echo json_encode($data);exit;
+            $id = (int)$data_find['id'];
+            echo json_encode($id);exit;
+            if (!is_null($data)) {
+               switch ($data['apiCall']) {
+                case 'findById':
+                    $result = $userController->show($id);
+                    echo json_encode($result);exit;
+                    break;
+                
+                case 'post':
+                   
+                    break;
+               }
+            }else {
+                echo json_encode(array('error' => "No se pudo borrar el registro"));
+            }
             break;   
         case 'PUT':
             echo 'put';
             break;
         case 'DELETE':
-            echo 'delete';
+            $data = json_decode(file_get_contents("php://input"),true);
+            $id = (int)$data['id'];
+            if(!is_null($data)){
+                $result = $userController->delete($id);
+                echo json_encode($result);exit;
+            }else{
+                echo json_encode(array('error' => "No se pudo borrar el registro"));
+            }
             break;                    
     }
 } else {

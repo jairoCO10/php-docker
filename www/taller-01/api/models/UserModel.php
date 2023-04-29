@@ -23,16 +23,22 @@
             try {
                 $result = $this->PDO->prepare($sql);
                 $result->execute($bindings);
-                $response = $result->fetch(PDO::FETCH_OBJ);
-                return $response;
-
+                if($result == true){
+                    $response = $result->fetch(PDO::FETCH_OBJ);
+                    return $response;
+                }else{
+                    $response = array(
+                       "message" => "error"
+                    );
+                    return $response;
+                }
             }catch (\Exception $e) {
                 die($e->getMessage());
             }
         }
 
         public function index(){
-            $sql = "SELECT Person.identificacion, Person.name, Genero.genero, Programa.programa
+            $sql = "SELECT Person.*, Genero.genero, Programa.programa
                         FROM Person 
                             INNER JOIN Genero ON Genero.id = Person.genero
                             INNER JOIN Programa ON Programa.id = Person.programa
@@ -64,13 +70,22 @@
             }
         }
         public function delete($id){
-            $sql ="DELETE FROM Person WHERE id = :id";
-            $bindings = array('id' => $id);
-
-            $result = $this->PDO->prepare($sql);
-            $result->execute($bindings);
-            $response = $result->rowCount();
-            return $response;
+            try{
+                $sql ="DELETE FROM Person WHERE identificacion = :id";
+                $bindings = array('id' => $id);
+                $result = $this->PDO->prepare($sql);
+                $result->execute($bindings);
+                if($result== true){
+                    $message = "success";
+                    return $message;
+                }else{
+                    $message = "error";
+                    return $message;
+                }
+            }catch (\Exception $e) {
+                die($e->getMessage());
+            }
+            
         }
     }
 ?>

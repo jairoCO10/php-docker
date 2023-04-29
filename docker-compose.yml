@@ -15,7 +15,6 @@ services:
       - ./conf:/etc/mysql/conf.d
       - persistent:/var/lib/mysql
     networks:
-      - app_network
       - default
   www:
     build: .
@@ -24,9 +23,8 @@ services:
     volumes:
       - ./www:/var/www/html
     links:
-      - db
+      - db:db
     networks:
-      - app_network
       - default
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -38,11 +36,6 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
-
-networks:
-  app_network:
-    name: app_network
-    driver: bridge
 
 volumes:
   persistent:
