@@ -17,3 +17,5 @@ private $user = "root";
 private $password = "test";
 ```
 4. Cargar el `bdname.sql` en la base de datos, esta en la ruta `api/SQL/dbname.sql` 
+
+5. Si usa xampp basta con arratrar la carpeta taller-01 al xampp para correrlo e importar la base de datos del punto 4.
