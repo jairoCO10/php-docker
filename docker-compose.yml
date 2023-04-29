@@ -15,27 +15,28 @@ services:
       - ./conf:/etc/mysql/conf.d
       - persistent:/var/lib/mysql
     networks:
-      - default
+      - app_network
   www:
     build: .
     ports:
       - "80:80"
     volumes:
       - ./www:/var/www/html
-    links:
-      - db:db
     networks:
-      - default
+      - app_network
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    links:
-      - db:db
     ports:
       - 8000:80
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
+
+networks:
+  app_network:
+    name: app_network
+    driver: bridge
 
 volumes:
   persistent:
