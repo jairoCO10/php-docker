@@ -6,6 +6,21 @@ const modalUpdate = document.querySelector("#sectionModal");
 const btnsCloseMod = document.querySelectorAll(".btnCloseMod");
 const btnUpdated = document.querySelector("#btnUpdated");
 
+const inputId = document.querySelector("#identificacion");
+
+inputId.addEventListener("change", (e)=>{
+  const regex = /[^0-9]/g;
+  const test = regex.test(e.target.value);
+  console.log(test);
+  if (test) {
+    inputId.classList.add("text-red-500");
+    inputId.classList.add("border-red-500");
+  } else {
+    inputId.classList.remove("text-red-500");
+    inputId.classList.remove("border-red-500");
+  }
+
+});
 
 const closeModalUpdate = () => {
   modalUpdate.classList.add("hidden");
@@ -229,6 +244,17 @@ const sendData = async () => {
       programa: selectPrograma.value,
       observacion: document.getElementById("observaciones").value,
     };
+    const regex = /[^0-9]/g;
+    const test = regex.test(e.target.value);
+    if (test) {
+      inputId.classList.add("text-red-500");
+      inputId.classList.add("border-red-500");
+      return;
+    } else {
+      inputId.classList.remove("text-red-500");
+      inputId.classList.remove("border-red-500");
+    }
+
     if (
       !payload.identificacion ||
       !payload.name ||
