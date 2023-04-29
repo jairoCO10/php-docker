@@ -1,6 +1,6 @@
 <?php
 class Dbconection {
-    private $host = "192.168.20.121"; //YOUR IP ADDRESS - dokcer ifconfig.
+    private $host = "192.168.1.26"; //YOUR IP ADDRESS - dokcer ifconfig.
     private $dbname = "dbname"; // aquí debes reemplazar "dbname" con el nombre de tu base de datos
     private $user = "root";
     private $password = "test";

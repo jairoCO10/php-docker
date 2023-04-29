@@ -16,16 +16,22 @@ services:
       - persistent:/var/lib/mysql
     networks:
       - app_network
+      - default
   www:
     build: .
     ports:
       - "80:80"
     volumes:
       - ./www:/var/www/html
+    links:
+      - db:db
     networks:
       - app_network
+      - default
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    links:
+      - db:db
     ports:
       - 8000:80
     environment:
@@ -40,4 +46,3 @@ networks:
 
 volumes:
   persistent:
-       

@@ -245,7 +245,7 @@ const sendData = async () => {
       observacion: document.getElementById("observaciones").value,
     };
     const regex = /[^0-9]/g;
-    const test = regex.test(e.target.value);
+    const test = regex.test(payload.identificacion);
     if (test) {
       inputId.classList.add("text-red-500");
       inputId.classList.add("border-red-500");
