@@ -1,10 +1,10 @@
 <?php
-    class UserController{
+    class UniversidadController{
         private $model;
-        public function __construct()
+        public function __construct($conn)
         {
             // require_once("../../models/UserModel.php");
-            $this->model = new UserModel();
+            $this->model = new UniversidadModel($conn);
         }
         public function guardar($data){
             if ($this->model->insertar($data) == true) {
@@ -16,9 +16,9 @@
             }
         }
         public function show($id){
-            $personJson = $this->model->show($id);
+            $universidadJson = $this->model->show($id);
             $response = array(
-                "person" =>  $personJson,
+                "universidad" =>  $universidadJson,
                 "message" => "success",
             );
             return $response;

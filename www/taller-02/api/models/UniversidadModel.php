@@ -1,5 +1,5 @@
 <?php
-class UserModel
+class UniversidadModel
 {
     private $PDO;
     public function __construct($conn)
@@ -9,16 +9,10 @@ class UserModel
     public function insertar($data)
     {
         // $name, $identificacion, $email, $fecha_nacimiento, $genero, $programa, $observacion
-        $sql = "INSERT INTO Person(identificacion,name,email,fecha_nacimiento,genero,programa,observacion,status) VALUES (:identificacion,:name,:email,:fecha_nacimiento,:genero,:programa,:observacion,:status)";
+        $sql = "INSERT INTO universidad(universidad,cantidad_salon) VALUES (:universidad,:cantidad_salon)";
         $bindings = array(
-            ':identificacion' => $data['identificacion'],
-            ':name' => $data['name'],
-            ':email' => $data['email'],
-            ':fecha_nacimiento' => $data['fecha_nacimiento'],
-            ':genero' => $data['genero'],
-            ':programa' => $data['programa'],
-            ':observacion' => $data['observacion'],
-            ':status' => 1
+            ':universidad' => $data['universidad'],
+            ':cantidad_salon' => $data['cantidad_salon'],
         );
         try {
             $result = $this->PDO->prepare($sql);
@@ -30,7 +24,7 @@ class UserModel
     }
     public function show($id)
     {
-        $sql = "SELECT * FROM Person WHERE identificacion = :id LIMIT 1";
+        $sql = "SELECT * FROM universidad WHERE id = :id LIMIT 1";
         $bindings = array(":id" => $id);
         try {
             $result = $this->PDO->prepare($sql);
@@ -42,11 +36,9 @@ class UserModel
     }
     public function index()
     {
-        $sql = "SELECT Person.*, Genero.genero, Programa.programa
-                        FROM Person 
-                            INNER JOIN Genero ON Genero.id = Person.genero
-                            INNER JOIN Programa ON Programa.id = Person.programa
-                        WHERE Person.status = 1";
+        $sql = "SELECT universidad.*
+                        FROM universidad 
+                        WHERE 1 = 1";
         try {
             $result = $this->PDO->prepare($sql);
             $result->execute();
@@ -58,15 +50,11 @@ class UserModel
     }
     public function update($data)
     {
-        $sql = "UPDATE Person SET name = :name, email = :email, fecha_nacimiento = :fecha_nacimiento, genero = :genero, programa = :programa, observacion = :observacion  WHERE identificacion = :id LIMIT 1";
+        $sql = "UPDATE universidad SET universidad = :universidad, cantidad_salon = :cantidad_salon WHERE id = :id LIMIT 1";
         $bindings = array(
             ':id' => $data['id'],
-            ':name' => $data['name'],
-            ':email' => $data['email'],
-            ':fecha_nacimiento' => $data['fecha_nacimiento'],
-            ':genero' => $data['genero'],
-            ':programa' => $data['programa'],
-            ':observacion' => $data['observacion'],
+            ':universidad' => $data['universidad'],
+            ':cantidad_salon' => $data['cantidad_salon'],
         );
         try {
             $result = $this->PDO->prepare($sql);
@@ -78,7 +66,7 @@ class UserModel
     public function delete($id)
     {
         try {
-            $sql = "DELETE FROM Person WHERE identificacion = :id";
+            $sql = "DELETE FROM universidad WHERE id = :id";
             $bindings = array('id' => $id);
             $result = $this->PDO->prepare($sql);
             return $result->execute($bindings);

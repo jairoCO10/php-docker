@@ -1,10 +1,10 @@
 <?php
-    class UserController{
+    class UniversidadSalonController{
         private $model;
-        public function __construct()
+        public function __construct($conn)
         {
             // require_once("../../models/UserModel.php");
-            $this->model = new UserModel();
+            $this->model = new UniversidadSalonModel($conn);
         }
         public function guardar($data){
             if ($this->model->insertar($data) == true) {
