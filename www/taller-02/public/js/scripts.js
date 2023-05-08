@@ -29,7 +29,10 @@ let dataSelects = {
   tiposSalones: [],
 };
 
-let dataUniversityRoom = [];
+let dataUniversity = {
+  universities: [],
+  rooms: [],
+};
 
 const closeModalUpdate = () => {
   modalUpdate.classList.add("hidden");
@@ -59,11 +62,16 @@ const validationsSelectsForms = (data) => {
   }
 };
 
+const checkAvailability = (arrU, val) => {
+  return arrU.some((u) => val.toLowerCase() === u.universidad.toLowerCase());
+}
+
 const renderData = async () => {
   const { data } = await getData();
   validationsFormAndTable(data);
 
-  dataUniversityRoom = data.universidadesSalon;
+  dataUniversity.rooms = data.universidadesSalon;
+  dataUniversity.universities = data.universidades;
 
   let contentTableUniversity = "";
   data?.universidades.forEach((universidad) => {
@@ -100,7 +108,7 @@ const renderData = async () => {
 };
 
 const renderTableUniversityRoom = (id) => {
-  const tableUniversityRoomSelect = dataUniversityRoom.filter(
+  const tableUniversityRoomSelect = dataUniversity.rooms.filter(
     (universityRoom) => Number(universityRoom.id) === Number(id)
   );
   let contentTableUniversityRoom = "";
@@ -342,6 +350,14 @@ const sendData = async () => {
       Swal.fire("Aviso", "Debe de llenar todos los campos.", "info");
       return;
     }
+
+    const isExistUniversity = checkAvailability(dataUniversity.universities, payload.universidad);
+    console.log(isExistUniversity);
+    if (isExistUniversity) {
+      Swal.fire("Aviso", "Esta universidad ya exite!", "info");
+      return;
+    }
+
     const { data } = await axios.post(
       "http://127.0.0.1/taller-02/api/",
       payload
@@ -417,7 +433,7 @@ const sendDataUniversityRoom = async () => {
       return;
     }
 
-    const lengthUniversityRoom = dataUniversityRoom.filter(
+    const lengthUniversityRoom = dataUniversity.rooms.filter(
       (ur) => Number(ur.id) === payload.id_universidad
     ).length;
 
