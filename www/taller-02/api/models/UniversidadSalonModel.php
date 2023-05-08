@@ -37,20 +37,20 @@ class UniversidadSalonModel
     }
     public function index()
     {
-        // $sql = "SELECT universidad.*, salon.salon, tipo_salon.tipo
-        //                 FROM universidad 
-        //                     INNER JOIN universidad_salon ON universidad_salon.id_universidad = universidad.id
-        //                     INNER JOIN salon ON salon.id = universidad_salon.id_salon
-        //                     INNER JOIN tipo_salon ON tipo_salon.id = universidad_salon.id_tipo_salon
-        //                 WHERE 1 = 1";
-        // try {
-        //     $result = $this->PDO->prepare($sql);
-        //     $result->execute();
-        //     $response = $result->fetchAll(PDO::FETCH_OBJ);
-        //     return $response;
-        // } catch (\Exception $e) {
-        //     die($e->getMessage());
-        // }
+        $sql = "SELECT universidad.*, universidad_salon.id as id_row, salon.salon, tipo_salon.tipo
+                        FROM universidad 
+                            INNER JOIN universidad_salon ON universidad_salon.id_universidad = universidad.id
+                            INNER JOIN salon ON salon.id = universidad_salon.id_salon
+                            INNER JOIN tipo_salon ON tipo_salon.id = universidad_salon.id_tipo_salon
+                        WHERE 1 = 1";
+        try {
+            $result = $this->PDO->prepare($sql);
+            $result->execute();
+            $response = $result->fetchAll(PDO::FETCH_OBJ);
+            return $response;
+        } catch (\Exception $e) {
+            die($e->getMessage());
+        }
     }
     public function update($data)
     {

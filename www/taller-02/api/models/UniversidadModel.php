@@ -66,7 +66,7 @@ class UniversidadModel
     public function delete($id)
     {
         try {
-            $sql = "DELETE FROM universidad WHERE id = :id";
+            $sql = "DELETE FROM universidad WHERE id = :id; DELETE FROM universidad_salon WHERE id_universidad = :id";
             $bindings = array('id' => $id);
             $result = $this->PDO->prepare($sql);
             return $result->execute($bindings);

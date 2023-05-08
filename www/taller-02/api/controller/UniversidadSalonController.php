@@ -18,7 +18,7 @@
         public function show($id){
             $personJson = $this->model->show($id);
             $response = array(
-                "person" =>  $personJson,
+                "universidad" =>  $personJson,
                 "message" => "success",
             );
             return $response;

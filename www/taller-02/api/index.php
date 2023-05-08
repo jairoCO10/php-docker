@@ -28,14 +28,12 @@ $universidadSalonController = new UniversidadSalonController($conn);
 if (!is_null($conn)) {
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
-            $salones = $salonController->getSalones();
-            $tiposSalones = $tipoSalonController->getTiposSalones();
             $universidades = $universidadController->index();
+            $universidadesSalon = $universidadSalonController->index();
 
             $data = array(
-                'salones' => $salones,
-                'tiposSalones' => $tiposSalones,
-                'universidades' => $universidades
+                'universidades' => $universidades,
+                'universidadesSalon' => $universidadesSalon,
             );
             echo json_encode($data);
             break;
@@ -45,14 +43,34 @@ if (!is_null($conn)) {
                 switch ($data['apiCall']) {
                     case 'findById':
                         $id = (int)$data['id'];
-                        $result = $universidadController->show($id);
-                        echo json_encode($result);
+                        $salones = $salonController->getSalones();
+                        $tiposSalones = $tipoSalonController->getTiposSalones();
+                        $universidad = $universidadController->show($id);
+                        $data = array(
+                            'salones' => $salones,
+                            'tiposSalones' => $tiposSalones,
+                            'universidad' => $universidad
+                        );
+                        echo json_encode($data);
+                        exit;
+                        break;
+                    case 'findByIdRoom':
+                        $id = (int)$data['id'];
+                        $universityRoomValues = $universidadSalonController->show($id);
+                        echo json_encode($universityRoomValues);
                         exit;
                         break;
 
                     case 'post':
                         $result = $universidadController->guardar($data);
-                        echo json_encode($result);exit;
+                        echo json_encode($result);
+                        exit;
+                        break;
+
+                    case 'post-univerisity-room':
+                        $result = $universidadSalonController->guardar($data);
+                        echo json_encode($result);
+                        exit;
                         break;
                 }
             } else {
@@ -63,7 +81,8 @@ if (!is_null($conn)) {
             $data = json_decode(file_get_contents("php://input"), true);
             if (!is_null($data)) {
                 $result = $universidadController->update($data);
-                echo json_encode($result);exit;
+                echo json_encode($result);
+                exit;
             } else {
                 echo json_encode(array('error' => "No se pudo borrar el registro"));
             }
@@ -71,10 +90,22 @@ if (!is_null($conn)) {
             break;
         case 'DELETE':
             $data = json_decode(file_get_contents("php://input"), true);
-            $id = (int)$data['id'];
             if (!is_null($data)) {
-                $result = $userController->delete($id);
-                echo json_encode($result);exit;
+                switch ($data['apiCall']) {
+                    case 'delete-universidad':
+                        $id = (int)$data['id'];
+                        $result = $universidadController->delete($id);
+                        echo json_encode($result);
+                        exit;
+                        break;
+
+                    case 'delete-universidad-salon':
+                        $id = (int)$data['id'];
+                        $result = $universidadSalonController->delete($id);
+                        echo json_encode($result);
+                        exit;
+                        break;
+                }
             } else {
                 echo json_encode(array('error' => "No se pudo borrar el registro"));
             }

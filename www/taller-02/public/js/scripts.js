@@ -1,13 +1,43 @@
-const selectSalones = document.querySelector("#salones");
-const selectTiposSalones = document.querySelector("#tipo_salones");
-const tBodyContentPersons = document.querySelector("#tBodyContentPersons");
-const btnSend = document.getElementById("btn-enviar");
-const modalUpdate = document.querySelector("#sectionModal");
-const btnsCloseMod = document.querySelectorAll(".btnCloseMod");
+const defaultModalS = document.querySelector("#defaultModalS");
+
+// selects
+const selectSalones = document.querySelector("#salone_add");
+const selectTiposSalones = document.querySelector("#tipo_salon_add");
+
+// tabla universidades
+const tBodyContentUniversidad = document.querySelector(
+  "#tBodyContentUniversidad"
+);
+const tBodyContentUniversidadSalones = document.querySelector(
+  "#tBodyContentUniversidadSalones"
+); // todo llenar
+
+// crud - btns
+const btnSend = document.querySelector("#btn-enviar");
 const btnUpdated = document.querySelector("#btnUpdated");
+
+const btnCreateRoom = document.querySelector("#btnCreateRoom");
+
+// modals
+const modalUpdate = document.querySelector("#sectionModal");
+const modalUpdateSalones = document.querySelector("#sectionModalSalones");
+const btnsCloseMod = document.querySelectorAll(".btnCloseMod");
+const btnsCloseModSalon = document.querySelectorAll(".btnCloseModSalon");
+
+// data select
+let dataSelects = {
+  tiposSalones: [],
+};
+
+let dataUniversityRoom = [];
 
 const closeModalUpdate = () => {
   modalUpdate.classList.add("hidden");
+};
+
+const closeModalCargarSalon = () => {
+  modalUpdateSalones.classList.add("hidden");
+  selectSalones.removeEventListener("change", () => {}, { passive: true });
 };
 
 const validationsFormAndTable = (data) => {
@@ -15,7 +45,9 @@ const validationsFormAndTable = (data) => {
     Swal.fire("Aviso", "No Hay registros de personas.", "info");
     return;
   }
+};
 
+const validationsSelectsForms = (data) => {
   if (!data.tiposSalones) {
     Swal.fire("Error!", "Erro al cargar los tipos de salones", "error");
     return;
@@ -29,28 +61,13 @@ const validationsFormAndTable = (data) => {
 
 const renderData = async () => {
   const { data } = await getData();
-
   validationsFormAndTable(data);
 
-  // let generoHTML = '<option value="">Seleccione un valor</option>';
-  // data.generos.forEach((genero) => {
-  //   generoHTML += `
-  //             <option value="${genero.id}">${genero.genero}</option>
-  //         `;
-  // });
-  // selectGenero.innerHTML = generoHTML;
+  dataUniversityRoom = data.universidadesSalon;
 
-  // let programasHTML = '<option value="">Seleccione un valor</option>';
-  // data.programas.forEach((programa) => {
-  //   programasHTML += `
-  //             <option value="${programa.id}">${programa.programa}</option>
-  //         `;
-  // });
-  // selectPrograma.innerHTML = programasHTML;
-
-  let contentTableUniversidades = "";
+  let contentTableUniversity = "";
   data?.universidades.forEach((universidad) => {
-    contentTableUniversidades += `
+    contentTableUniversity += `
       <tr class="bg-white border-b">
           <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
           ${universidad.universidad}
@@ -78,72 +95,55 @@ const renderData = async () => {
       </tr>
       `;
   });
-  tBodyContentPersons.innerHTML = contentTableUniversidades;
+  tBodyContentUniversidad.innerHTML = contentTableUniversity;
+  // fillDataModalSalon(data)
 };
 
-const renderSelectsUpdate = async () => {
-  const selectGeneroUp = document.querySelector("#genero_up");
-  const selectProgramaUp = document.querySelector("#programa_up");
-  const { data } = await getData();
+const renderTableUniversityRoom = (id) => {
+  const tableUniversityRoomSelect = dataUniversityRoom.filter(
+    (universityRoom) => Number(universityRoom.id) === Number(id)
+  );
+  let contentTableUniversityRoom = "";
+  tableUniversityRoomSelect.forEach((universityRoom, idx) => {
+    contentTableUniversityRoom += `
+      <tr class="bg-white border-b">
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+          ${idx + 1}
+          </th>
+          <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+          ${universityRoom.universidad}
+          </th>
+          <td class="px-6 py-4">
+          ${universityRoom.salon}
+          </td>
+          <td class="px-6 py-4">
+          ${universityRoom.tipo}
+          </td>
+          <td class="px-6 py-4 flex flex-row">
+          <button type="button" data-id="${
+            universityRoom.id_row
+          }" class="btnDeleteRoom text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+              </svg>
+          </button>
+          </td>
+      </tr>
+      `;
+  });
+  tBodyContentUniversidadSalones.innerHTML = contentTableUniversityRoom;
+};
 
-  if (!data.generos) {
-    Swal.fire("Error!", "Erro al cargar los generos", "error");
-    return;
-  }
-
-  if (!data.programas) {
-    Swal.fire("Error!", "Erro al cargar los programas", "error");
-    return;
-  }
-
-  let generoHTML = '<option value="">Seleccione un valor</option>';
-  data.generos.forEach((genero) => {
-    generoHTML += `
-              <option value="${genero.id}">${genero.genero}</option>
+const renderSelectsUpdate = (data) => {
+  validationsSelectsForms(data);
+  let salonesHTML = '<option value="">Seleccione un valor</option>';
+  data.salones.forEach((salon) => {
+    salonesHTML += `
+              <option value="${salon.id}">${salon.salon}</option>
           `;
   });
-  selectGeneroUp.innerHTML = generoHTML;
-
-  let programasHTML = '<option value="">Seleccione un valor</option>';
-  data.programas.forEach((programa) => {
-    programasHTML += `
-              <option value="${programa.id}">${programa.programa}</option>
-          `;
-  });
-  selectProgramaUp.innerHTML = programasHTML;
-};
-
-const actionsTable = () => {
-  const btnsEdit = document.querySelectorAll(".btnEdit");
-  const btnsCargaSalones = document.querySelectorAll(".btnCargaSalones");
-  const btnsDelete = document.querySelectorAll(".btnDelete");
-
-  btnsDelete.forEach((btnDelete) => {
-    btnDelete.addEventListener("click", () => {
-      const id = btnDelete.getAttribute("data-id");
-      deleteUniversidad(id);
-    });
-  });
-
-  btnsEdit.forEach((btnEdit) => {
-    btnEdit.addEventListener("click", () => {
-      const id = btnEdit.getAttribute("data-id");
-      getUniversidadById(id);
-    });
-  });
-
-  btnsCargaSalones.forEach((btnCargaSalon) => {
-    console.log('click-abrir modal');
-  });
-};
-
-const getData = async () => {
-  try {
-    const response = await axios("/taller-02/api");
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+  selectSalones.innerHTML = salonesHTML;
+  dataSelects.tiposSalones = data.tiposSalones;
 };
 
 const getUniversidadById = async (id) => {
@@ -156,16 +156,96 @@ const getUniversidadById = async (id) => {
       "http://127.0.0.1/taller-02/api/",
       payload
     );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUniversityRoomById = async (id) => {
+  try {
+    const payload = {
+      id,
+      apiCall: "findByIdRoom",
+    };
+    const { data } = await axios.post(
+      "http://127.0.0.1/taller-02/api/",
+      payload
+    );
     console.log(data);
-    if (data.message === "success") {
-      modalUpdate.classList.remove("hidden");
-      document.querySelector("#universidad_show").textContent =
-        data.universidad.universidad;
-      document.getElementById("universidad_up").value =
-        data.universidad.universidad;
-      document.getElementById("cantidad_salones_up").value =
-        data.universidad.cantidad_salon;
-    }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const fillDataModal = (data) => {
+  if (data.message === "success") {
+    modalUpdate.classList.remove("hidden");
+    document.querySelector("#universidad_show").textContent =
+      data.universidad.id;
+    document.getElementById("universidad_up").value =
+      data.universidad.universidad;
+    document.getElementById("cantidad_salones_up").value =
+      data.universidad.cantidad_salon;
+  }
+};
+
+const fillDataModalSalon = (data) => {
+  modalUpdateSalones.classList.remove("hidden");
+  document.querySelector("#universidad_show_id").textContent =
+    data.universidad.universidad.id;
+  document.querySelector("#universidad_show_u").textContent =
+    data.universidad.universidad.universidad;
+  document.querySelector("#universidad_show_cantidad").textContent =
+    data.universidad.universidad.cantidad_salon;
+  renderSelectsUpdate(data);
+  renderTableUniversityRoom(data.universidad.universidad.id);
+  actionsTable();
+};
+
+const actionsTable = () => {
+  const btnsCargaSalones = document.querySelectorAll(".btnCargaSalones");
+  const btnsEdit = document.querySelectorAll(".btnEdit");
+  const btnsDelete = document.querySelectorAll(".btnDelete");
+  const btnsDeleteRoom = document.querySelectorAll(".btnDeleteRoom");
+
+  btnsCargaSalones.forEach((btnCargaSalon) => {
+    btnCargaSalon.addEventListener("click", async () => {
+      const id = btnCargaSalon.getAttribute("data-id");
+      const data = await getUniversidadById(id);
+      fillDataModalSalon(data);
+    });
+  });
+
+  btnsEdit.forEach((btnEdit) => {
+    btnEdit.addEventListener("click", async () => {
+      const id = btnEdit.getAttribute("data-id");
+      const data = await getUniversidadById(id);
+      fillDataModal(data.universidad);
+    });
+  });
+
+  btnsDelete.forEach((btnDelete) => {
+    btnDelete.addEventListener("click", () => {
+      const id = btnDelete.getAttribute("data-id");
+      deleteUniversidad(id);
+    });
+  });
+
+  btnsDeleteRoom.forEach((btnDelete) => {
+    btnDelete.addEventListener("click", () => {
+      console.log("click - delete");
+      const id = btnDelete.getAttribute("data-id");
+      deleteUniversidadSalon(id);
+    });
+  });
+};
+
+const getData = async () => {
+  try {
+    const response = await axios("/taller-02/api");
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -174,10 +254,10 @@ const getUniversidadById = async (id) => {
 const deleteUniversidad = (id) => {
   try {
     const payload = {
-      data: JSON.stringify({ id }),
+      data: JSON.stringify({ id, apiCall: "delete-universidad" }),
     };
     Swal.fire({
-      title: "Eliminar Persona",
+      title: "Eliminar Universidad",
       text: "Esta seguro que desea eliminar este registro ?",
       icon: "warning",
       showCancelButton: true,
@@ -190,9 +270,51 @@ const deleteUniversidad = (id) => {
           "http://127.0.0.1/taller-02/api/",
           payload
         );
+        console.log(data);
         if (data === "success") {
           Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
           await renderData();
+          actionsTable();
+        } else {
+          Swal.fire(
+            "Error!",
+            "Hubo un error al eliminar el registro.",
+            "error"
+          );
+        }
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteUniversidadSalon = (id) => {
+  try {
+    const payload = {
+      data: JSON.stringify({ id, apiCall: "delete-universidad-salon" }),
+    };
+    Swal.fire({
+      title: "Eliminar Salon",
+      text: "Esta seguro que desea eliminar este registro ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.delete(
+          "http://127.0.0.1/taller-02/api/",
+          payload
+        );
+        console.log(data);
+        if (data === "success") {
+          Swal.fire("Eliminado!", "El registro ha sido eliminado.", "success");
+          await renderData();
+          renderTableUniversityRoom(
+            document.querySelector("#universidad_show_id").textContent
+          );
           actionsTable();
         } else {
           Swal.fire(
@@ -248,6 +370,7 @@ const sendData = async () => {
 const onUpdate = async () => {
   try {
     const payload = {
+      id: document.querySelector("#universidad_show").textContent,
       universidad: document.getElementById("universidad_up").value,
       cantidad_salon: document.getElementById("cantidad_salones_up").value,
     };
@@ -274,9 +397,98 @@ const onUpdate = async () => {
   }
 };
 
+const sendDataUniversityRoom = async () => {
+  try {
+    const maxRoom = Number(
+      document.querySelector("#universidad_show_cantidad").textContent
+    );
+
+    const payload = {
+      apiCall: "post-univerisity-room",
+      id_universidad: Number(
+        document.querySelector("#universidad_show_id").textContent
+      ),
+      id_salon: Number(selectSalones.value),
+      id_tipo_salon: Number(selectTiposSalones.value),
+    };
+
+    if (!payload.id_salon || !payload.id_tipo_salon) {
+      Swal.fire("Aviso", "Debe de llenar todos los campos.", "info");
+      return;
+    }
+
+    const lengthUniversityRoom = dataUniversityRoom.filter(
+      (ur) => Number(ur.id) === payload.id_universidad
+    ).length;
+
+    console.log({ lengthUniversityRoom, maxRoom });
+    if (lengthUniversityRoom >= maxRoom) {
+      Swal.fire(
+        "Aviso - Tope de salones",
+        "Ya no se pueden craer mas salones para esta universidad.",
+        "info"
+      );
+      return;
+    }
+
+    const { data } = await axios.post(
+      "http://127.0.0.1/taller-02/api/",
+      payload
+    );
+    console.log(data);
+    if (data === "success") {
+      console.log("render-data");
+      await renderData();
+      actionsTable();
+      renderTableUniversityRoom(payload.id_universidad);
+      Swal.fire(
+        "Guardado!",
+        "El registro ha sido guardado correctamente.",
+        "success"
+      );
+      selectSalones.value = "";
+      selectTiposSalones.value = "";
+    } else {
+      Swal.fire("Error!", "Hubo un error al guardar el registro.", "error");
+    }
+  } catch (error) {
+    console.log(error);
+    Swal.fire("Error!", "Error al hacer la peticion", "error");
+  }
+};
+
 // create
 btnSend.addEventListener("click", () => {
   sendData();
+});
+
+// create - university room
+btnCreateRoom.addEventListener("click", () => {
+  sendDataUniversityRoom();
+});
+
+// change select - 1
+selectSalones.addEventListener("change", (e) => {
+  const optionSelectSalon = Number(e.target.value);
+  const optionsForTypeRoom = {
+    1: ["sencillo", "amoblado"],
+    2: ["mediano", "grande"],
+    3: ["sencillo", "amoblado", "mediano"],
+  };
+  const options = dataSelects.tiposSalones.filter((tipoSalon) => {
+    // Si es [1] estandar el tipo debe ser sencillo o amoblado
+    // Si es [2] auditorio, el tipo puede ser mediano o grande.
+    // Si es [3] videconferencia, el tipo puede ser sencillo, amoblado o mediano
+    return optionsForTypeRoom[optionSelectSalon].includes(tipoSalon.tipo);
+  });
+
+  let selectTiposSalonesHTML = '<option value="">Seleccione un valor</option>';
+  options.forEach((tipoSalon) => {
+    selectTiposSalonesHTML += `
+              <option value="${tipoSalon.id}">${tipoSalon.tipo}</option>
+          `;
+  });
+  selectTiposSalones.innerHTML = selectTiposSalonesHTML;
 });
 
 // close modals
@@ -286,10 +498,19 @@ btnsCloseMod.forEach((btnClose) => {
   });
 });
 
+// close modals salones
+btnsCloseModSalon.forEach((btnClose) => {
+  btnClose.addEventListener("click", () => {
+    closeModalCargarSalon();
+  });
+});
+
 // update
 btnUpdated.addEventListener("click", () => {
   onUpdate();
 });
+
+// update - university room
 
 //load - init
 window.addEventListener("load", async () => {
