@@ -162,7 +162,7 @@ const getUniversidadById = async (id) => {
       apiCall: "findById",
     };
     const { data } = await axios.post(
-      "http://127.0.0.1/taller-02/api/",
+      "http://127.0.0.1/C2-taller-01/api/",
       payload
     );
     return data;
@@ -178,7 +178,7 @@ const getUniversityRoomById = async (id) => {
       apiCall: "findByIdRoom",
     };
     const { data } = await axios.post(
-      "http://127.0.0.1/taller-02/api/",
+      "http://127.0.0.1/C2-taller-01/api/",
       payload
     );
     console.log(data);
@@ -253,7 +253,7 @@ const actionsTable = () => {
 
 const getData = async () => {
   try {
-    const response = await axios("/taller-02/api");
+    const response = await axios("/C2-taller-01/api");
     return response;
   } catch (error) {
     console.log(error);
@@ -276,7 +276,7 @@ const deleteUniversidad = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { data } = await axios.delete(
-          "http://127.0.0.1/taller-02/api/",
+          "http://127.0.0.1/C2-taller-01/api/",
           payload
         );
         console.log(data);
@@ -314,7 +314,7 @@ const deleteUniversidadSalon = (id) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { data } = await axios.delete(
-          "http://127.0.0.1/taller-02/api/",
+          "http://127.0.0.1/C2-taller-01/api/",
           payload
         );
         console.log(data);
@@ -360,7 +360,7 @@ const sendData = async () => {
     }
 
     const { data } = await axios.post(
-      "http://127.0.0.1/taller-02/api/",
+      "http://127.0.0.1/C2-taller-01/api/",
       payload
     );
     console.log(data);
@@ -393,7 +393,7 @@ const onUpdate = async () => {
     };
 
     const { data } = await axios.put(
-      "http://127.0.0.1/taller-02/api/",
+      "http://127.0.0.1/C2-taller-01/api/",
       payload
     );
     if (data === "success") {
@@ -449,7 +449,7 @@ const sendDataUniversityRoom = async () => {
     }
 
     const { data } = await axios.post(
-      "http://127.0.0.1/taller-02/api/",
+      "http://127.0.0.1/C2-taller-01/api/",
       payload
     );
     console.log(data);

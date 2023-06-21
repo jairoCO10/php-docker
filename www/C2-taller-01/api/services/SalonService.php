@@ -1,17 +1,17 @@
 
 
 <?php
-require_once "repositories/SalonRepository.php";
+require_once "controller/SalonController.php";
 
     class SalonService{
         
-        private $_salonRepository;
+        private $_salonController;
         public function __construct()
         {
-            $this->_salonRepository = new SalonRepository();
+            $this->_salonController = new SalonController();
         }
         public function getSalones(){
-            return  $this->_salonRepository->findAll();
+            return  $this->_salonController->getSalones();
         }
        
     }

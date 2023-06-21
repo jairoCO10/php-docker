@@ -64,7 +64,7 @@
 
                                 <div class="mb-4">
                                     <label for="cantidad_salones_up" class="block mb-2 text-sm font-medium text-gray-900 ">Cantidad Salones</label>
-                                    <input type="email" id="cantidad_salones_up" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
+                                    <input type="number" id="cantidad_salones_up" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " required>
                                 </div>
 
                             </form>

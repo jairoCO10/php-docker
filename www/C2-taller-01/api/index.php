@@ -8,11 +8,11 @@ require_once 'services/UniversidadService.php';
 require_once 'services/UniversidadSalonService.php';
 require_once 'services/SalonService.php';
 require_once 'services/TipoSalonService.php';
-// echo realpath(dirname(__FILE__));exit;
+
 
 $universidadService = new UniversidadService();
 $universidadSalonService = new UniversidadSalonService();
-$aalonService = new SalonService();
+$salonService = new SalonService();
 $tipoSalonService = new TipoSalonService();
 
 switch ($_SERVER['REQUEST_METHOD']) {
@@ -32,7 +32,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             switch ($data['apiCall']) {
                 case 'findById':
                     $id = (int)$data['id'];
-                    $salones = $aalonService->getSalones();
+                    $salones = $salonService->getSalones();
                     $tiposSalones = $tipoSalonService->getTiposSalones();
                     $universidad = $universidadService->show($id);
                     $data = array(
@@ -51,6 +51,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     break;
 
                 case 'post':
+                    
                     $result = $universidadService->guardar($data);
                     echo json_encode($result);
                     exit;

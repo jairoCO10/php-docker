@@ -9,7 +9,7 @@ class Dbconection {
         if(empty(self::$instance)) {
 
             $db_info = array(
-                "db_host" => "192.168.101.21",
+                "db_host" => "192.168.1.111",
                 "db_port" => "3306",
                 "db_user" => "root",
                 "db_pass" => "test",

@@ -40,7 +40,10 @@ class UniversidadSalonRepository {
     }
 
     public function add($data){
-        $sql = "INSERT INTO universidad_salon(id_universidad,id_salon,id_tipo_salon) VALUES (:id_universidad,:id_salon,:id_tipo_salon)";
+        
+        $sql = "INSERT INTO universidad_salon(id_universidad,id_salon,id_tipo_salon) 
+        VALUES (:id_universidad,:id_salon,:id_tipo_salon)";
+
         $bindings = array(
             ':id_universidad' => $data['id_universidad'],
             ':id_salon' => $data['id_salon'],
@@ -67,6 +70,7 @@ class UniversidadSalonRepository {
         $sql = "DELETE FROM universidad_salon WHERE id = :id";
         $bindings = array('id' => $id);
         $stm = $this->_db->prepare($sql);
-        return $stm->execute($bindings);
+        $stm->execute($bindings);
+        return $stm;
     }
 }

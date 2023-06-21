@@ -11,7 +11,7 @@ class UniversidadRepository {
 
     public function find($id){
         $result = null;
-        $sql = "SELECT * FROM universidad WHERE id = :id LIMIT 1";
+        $sql = "SELECT * FROM universidad WHERE id = :id";
         $bindings = array(":id" => $id);
         $stm = $this->_db->prepare($sql);
         $stm->execute($bindings);
