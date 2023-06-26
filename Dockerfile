@@ -12,6 +12,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && docker-php-ext-install zip
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# RUN composer require firebase/php-jwt
+
 RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install gd
