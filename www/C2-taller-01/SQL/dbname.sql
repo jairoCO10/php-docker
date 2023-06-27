@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: db
--- Tiempo de generación: 27-06-2023 a las 16:15:34
--- Versión del servidor: 8.0.33
--- Versión de PHP: 8.1.17
+-- Host: db
+-- Generation Time: Jun 27, 2023 at 07:09 PM
+-- Server version: 8.0.33
+-- PHP Version: 8.1.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `dbname`
+-- Database: `dbname`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Genero`
+-- Table structure for table `Genero`
 --
 
 CREATE TABLE `Genero` (
@@ -33,7 +33,7 @@ CREATE TABLE `Genero` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `Genero`
+-- Dumping data for table `Genero`
 --
 
 INSERT INTO `Genero` (`id`, `genero`) VALUES
@@ -43,7 +43,7 @@ INSERT INTO `Genero` (`id`, `genero`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Person`
+-- Table structure for table `Person`
 --
 
 CREATE TABLE `Person` (
@@ -58,7 +58,7 @@ CREATE TABLE `Person` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `Person`
+-- Dumping data for table `Person`
 --
 
 INSERT INTO `Person` (`identificacion`, `name`, `email`, `fecha_nacimiento`, `genero`, `programa`, `observacion`, `status`) VALUES
@@ -73,7 +73,7 @@ INSERT INTO `Person` (`identificacion`, `name`, `email`, `fecha_nacimiento`, `ge
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Programa`
+-- Table structure for table `Programa`
 --
 
 CREATE TABLE `Programa` (
@@ -82,7 +82,7 @@ CREATE TABLE `Programa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `Programa`
+-- Dumping data for table `Programa`
 --
 
 INSERT INTO `Programa` (`id`, `programa`) VALUES
@@ -114,7 +114,7 @@ INSERT INTO `Programa` (`id`, `programa`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `salon`
+-- Table structure for table `salon`
 --
 
 CREATE TABLE `salon` (
@@ -123,7 +123,7 @@ CREATE TABLE `salon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `salon`
+-- Dumping data for table `salon`
 --
 
 INSERT INTO `salon` (`id`, `salon`) VALUES
@@ -134,7 +134,7 @@ INSERT INTO `salon` (`id`, `salon`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipo_salon`
+-- Table structure for table `tipo_salon`
 --
 
 CREATE TABLE `tipo_salon` (
@@ -143,7 +143,7 @@ CREATE TABLE `tipo_salon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `tipo_salon`
+-- Dumping data for table `tipo_salon`
 --
 
 INSERT INTO `tipo_salon` (`id`, `tipo`) VALUES
@@ -155,7 +155,7 @@ INSERT INTO `tipo_salon` (`id`, `tipo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `universidad`
+-- Table structure for table `universidad`
 --
 
 CREATE TABLE `universidad` (
@@ -165,7 +165,7 @@ CREATE TABLE `universidad` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `universidad`
+-- Dumping data for table `universidad`
 --
 
 INSERT INTO `universidad` (`id`, `universidad`, `cantidad_salon`) VALUES
@@ -176,7 +176,7 @@ INSERT INTO `universidad` (`id`, `universidad`, `cantidad_salon`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `universidad_salon`
+-- Table structure for table `universidad_salon`
 --
 
 CREATE TABLE `universidad_salon` (
@@ -187,7 +187,7 @@ CREATE TABLE `universidad_salon` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `universidad_salon`
+-- Dumping data for table `universidad_salon`
 --
 
 INSERT INTO `universidad_salon` (`id`, `id_universidad`, `id_salon`, `id_tipo_salon`) VALUES
@@ -207,15 +207,11 @@ INSERT INTO `universidad_salon` (`id`, `id_universidad`, `id_salon`, `id_tipo_sa
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
   `id` int NOT NULL,
-  `identificacion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `apellido` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -224,25 +220,25 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Dumping data for table `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `identificacion`, `nombre`, `apellido`, `telefono`, `username`, `email`, `password`, `activo`, `_is_admin`) VALUES
-(1, '123', 'test', 'test', '123', 'test1', 'test@test.com', 'testtest', 1, 1),
-(2, '1234', 'test2', 'test2', '1234', 'test12', 'test2@test.com', 'testtest2', 1, 1);
+INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `activo`, `_is_admin`) VALUES
+(1, 'test1', 'test@test.com', 'testtest', 1, 1),
+(2, 'test12', 'test2@test.com', 'testtest2', 1, 1);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `Genero`
+-- Indexes for table `Genero`
 --
 ALTER TABLE `Genero`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `Person`
+-- Indexes for table `Person`
 --
 ALTER TABLE `Person`
   ADD PRIMARY KEY (`identificacion`),
@@ -250,92 +246,91 @@ ALTER TABLE `Person`
   ADD KEY `programa` (`programa`);
 
 --
--- Indices de la tabla `Programa`
+-- Indexes for table `Programa`
 --
 ALTER TABLE `Programa`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `salon`
+-- Indexes for table `salon`
 --
 ALTER TABLE `salon`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `tipo_salon`
+-- Indexes for table `tipo_salon`
 --
 ALTER TABLE `tipo_salon`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `universidad`
+-- Indexes for table `universidad`
 --
 ALTER TABLE `universidad`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `universidad_salon`
+-- Indexes for table `universidad_salon`
 --
 ALTER TABLE `universidad_salon`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unicos` (`identificacion`,`email`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `telefono` (`telefono`);
+  ADD UNIQUE KEY `unicos` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `Genero`
+-- AUTO_INCREMENT for table `Genero`
 --
 ALTER TABLE `Genero`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `Person`
+-- AUTO_INCREMENT for table `Person`
 --
 ALTER TABLE `Person`
   MODIFY `identificacion` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1566737356;
 
 --
--- AUTO_INCREMENT de la tabla `Programa`
+-- AUTO_INCREMENT for table `Programa`
 --
 ALTER TABLE `Programa`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT de la tabla `salon`
+-- AUTO_INCREMENT for table `salon`
 --
 ALTER TABLE `salon`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT de la tabla `tipo_salon`
+-- AUTO_INCREMENT for table `tipo_salon`
 --
 ALTER TABLE `tipo_salon`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `universidad`
+-- AUTO_INCREMENT for table `universidad`
 --
 ALTER TABLE `universidad`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT de la tabla `universidad_salon`
+-- AUTO_INCREMENT for table `universidad_salon`
 --
 ALTER TABLE `universidad_salon`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
--- AUTO_INCREMENT de la tabla `usuarios`
+-- AUTO_INCREMENT for table `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
