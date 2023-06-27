@@ -25,12 +25,14 @@ class UsuarioRegistroRepository
         return $result;
     }
     public function addUser($data){
-        $sql = "INSERT INTO usuarios(identificacion, username, email, password, activo)
-                    VALUES (:identificacion, :username, :email, :password, :activo)";
-
+        $sql = "INSERT INTO usuarios(username,email,password,activo)
+                    VALUES (:username,:email,:password,:activo)";
+        // echo json_encode($data);exit;
         $bindings = array(
-            ':id_universidad' => $data['id_universidad'],
-            ':numero_registro' => 1,
+            ':username' => $data['username'],
+            ':email' => $data['email'],
+            ':password' => $data['password'],
+            ':activo' => $data['activo'],
         );
         $stm = $this->_db->prepare($sql);
         $stm->execute($bindings);

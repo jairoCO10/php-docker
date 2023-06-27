@@ -11,5 +11,10 @@ class UsuarioService
         $response = $this->_UsuarioController->show($data);
         return $response;
     }
+
+    public function addUser($data){
+        $response = $this->_UsuarioController->addUser($data);
+        return $response;
+    }
     
 }

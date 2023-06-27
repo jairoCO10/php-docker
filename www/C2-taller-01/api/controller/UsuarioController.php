@@ -11,7 +11,6 @@ class UsuarioController
     public function __construct()
     {
         $this->_UsuarioRegistroRepository = new UsuarioRegistroRepository();
-
     }
 
     public function show($data)
@@ -27,5 +26,25 @@ class UsuarioController
             echo $error->getMessage();
         }
     }
-    
+
+    public function addUser($data)
+    {
+        try {
+            if ($this->_UsuarioRegistroRepository->addUser($data) == true) {
+                $response = array(
+                    "usuario" =>  null,
+                    "message" => "success",
+                );
+                return $response;
+            } else {
+                $response = array(
+                    "usuario" =>  null,
+                    "message" => "success",
+                );
+                return $response;
+            }
+        } catch (PDOException $error) {
+            echo $error->getMessage();
+        }
+    }
 }
