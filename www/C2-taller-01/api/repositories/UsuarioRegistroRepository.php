@@ -14,8 +14,8 @@ class UsuarioRegistroRepository
     {
         // echo json_encode($data['username']);exit;
         $result = null;
-        $sql = "SELECT * FROM usuarios WHERE password = :password AND username = :username";
-        $bindings = array(":username" =>$data['username'], ":password"=>$data['password']);
+        $sql = "SELECT * FROM usuarios WHERE pass = :pass AND username = :username";
+        $bindings = array(":username" =>$data['username'], ":pass"=>$data['password']);
         $stm = $this->_db->prepare($sql);
         $stm->execute($bindings);
         $data = $stm->fetchAll(PDO::FETCH_OBJ);
@@ -25,15 +25,17 @@ class UsuarioRegistroRepository
         return $result;
     }
     public function addUser($data){
-        $sql = "INSERT INTO usuarios(username,email,password,activo)
-                    VALUES (:username,:email,:password,:activo)";
-        // echo json_encode($data);exit;
+        $sql = "INSERT INTO usuarios(username, email, pass, activo, _is_admin)
+                    VALUES (:username, :email, :pass, :activo, :_is_admin)";
         $bindings = array(
             ':username' => $data['username'],
             ':email' => $data['email'],
-            ':password' => $data['password'],
+            ':pass' => $data['password'],
             ':activo' => $data['activo'],
+            
+            ':_is_admin' =>true,
         );
+        echo json_encode($bindings);
         $stm = $this->_db->prepare($sql);
         $stm->execute($bindings);
         return $stm;
@@ -50,10 +52,10 @@ class UsuarioRegistroRepository
         return $stm;
     }
     public function updatePassword($uppassword){
-        $sql = "UPDATE usuarios SET password = :password WHERE id = :id";
+        $sql = "UPDATE usuarios SET pass = :pass WHERE id = :id";
 
         $bindings = array(
-            ':password' => $uppassword['password'],
+            ':pass' => $uppassword['password'],
             ':id' => $uppassword['id'],
         );
         $stm = $this->_db->prepare($sql);

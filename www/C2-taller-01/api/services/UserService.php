@@ -12,8 +12,9 @@ class UsuarioService
         return $response;
     }
 
-    public function addUser($data){
+    public function agregarUser($data){
         $response = $this->_UsuarioController->addUser($data);
+        // echo json_encode($response);exit;
         return $response;
     }
     

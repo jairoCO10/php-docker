@@ -39,7 +39,7 @@ class UsuarioController
             } else {
                 $response = array(
                     "usuario" =>  null,
-                    "message" => "success",
+                    "message" => "error",
                 );
                 return $response;
             }

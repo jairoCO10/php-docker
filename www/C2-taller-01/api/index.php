@@ -102,12 +102,56 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $data = json_decode(file_get_contents("php://input"), true);
         if (!is_null($data)) {
             switch ($data['apiCall']) {
+                case "create-user":
+                    echo json_encode($data);
+                    $encpass = password_hash($data["password"], PASSWORD_BCRYPT);
+                    $data = array(
+                        'username' => $data['username'],
+                        'email' => $data['email'],
+                        'password' => $encpass,
+                        'activo' => $data['activo'],
+                    );
+                    echo json_encode($data);
+                    
+                    $result = $UsuarioService->agregarUser($data);
+                     echo json_encode($result);exit;
+                    if ($result == "success") {
+                        $payload = array(
+                            "message" => "success",
+                            "data" => $data
+                        );
+                        echo json_encode($payload);
+                    } else {
+                        $payload = array(
+                            "message" => "error",
+                            "data" => $data
+                        );
+                        echo json_encode($payload);
+
+                    }
+
+                    // if ($result["message"] == "success") {
+                    // //         $payload = array(
+                    // //             "message" => "success",
+                    // //             "data" => $result
+                    // //         );
+                    // echo json_encode($result);
+                    // // } else {
+                    // //     $payload = array(
+                    // //         "message" => "failed",
+                    // //         "data" => null
+                    // //     );
+                    // //     echo json_encode($payload);
+                    // }
+                    // exit;
+                    break;
                 case 'auth':
                     $result = $UsuarioService->show($data);
                     if ($result) {
                         $now = strtotime("now");
                         $payload = [
-                            'exp' => $now + 3600, // Tiempo de expiración del token en segundos (1 hora en este caso)
+                            'exp' => $now + 3600,
+                            // Tiempo de expiración del token en segundos (1 hora en este caso)
                             'data' => $result
                         ];
                         $jwt = JWT::encode($payload, $jwtSecretKey, 'HS256');
@@ -270,27 +314,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     }
                     exit;
                     break;
-                case "create-user":
-                    $encpass = password_hash($data["password"], PASSWORD_BCRYPT);
-                    $data = array(
-                        'username' => $data['username'],
-                        'email' => $data['email'],
-                        'password' => $encpass,
-                        'activo' => $data['activo'],
-                    );
-                    // echo json_encode($data);exit;
-                    $result = $UsuarioService->addUser($data);
-                    if ($result["message"] == "success") {
-                        echo json_encode($result);
-                    } else {
-                        $payload = array(
-                            "message" => "failed",
-                            "data" => null
-                        );
-                        echo json_encode($payload);
-                    }
-                    exit;
-                    break;
+
             }
         } else {
             echo json_encode(array('error' => "No se pudo borrar el registro"));
@@ -355,7 +379,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         // El token es válido y decodificado correctamente
                         if ($decoded["data"]["message"] == "success") {
                             // Aquí puedes continuar con la lógica del endpoint protegido
-                            $id = (int)$data['id'];
+                            $id = (int) $data['id'];
                             $result = $universidadService->delete($id);
                             $payload = array(
                                 "message" => "success",
@@ -389,7 +413,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         // El token es válido y decodificado correctamente
                         if ($decoded["data"]["message"] == "success") {
                             // Aquí puedes continuar con la lógica del endpoint protegido
-                            $id = (int)$data['id'];
+                            $id = (int) $data['id'];
                             $result = $universidadSalonService->delete($id);
                             $payload = array(
                                 "message" => "success",

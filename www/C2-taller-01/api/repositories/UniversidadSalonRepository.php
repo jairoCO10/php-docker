@@ -25,7 +25,7 @@ class UniversidadSalonRepository {
     public function findAll(){
         $result = [];
         $sql = "SELECT universidad.*, universidad_salon.id as id_row, salon.salon, tipo_salon.tipo
-                        FROM universidad 
+                        FROM universidad
                             INNER JOIN universidad_salon ON universidad_salon.id_universidad = universidad.id
                             INNER JOIN salon ON salon.id = universidad_salon.id_salon
                             INNER JOIN tipo_salon ON tipo_salon.id = universidad_salon.id_tipo_salon

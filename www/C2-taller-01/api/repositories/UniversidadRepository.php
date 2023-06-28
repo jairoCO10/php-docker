@@ -45,7 +45,7 @@ class UniversidadRepository {
         );
         $stm = $this->_db->prepare($sql);
         $stm->execute($bindings);
-        return $stm;        
+        return $stm;
     }
 
     public function update($data){
